@@ -13,6 +13,7 @@ import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,18 +50,26 @@ public class ExecutionListenerHandler implements InvocationHandler{
 
             JsonObjectBuilder builder = Json.createObjectBuilder();
 
+            String mvnCommandArgs = session.getExecutionProperties().getProperty("sun.java.command");
+            String mvnCommandWithoutFirstArg = null;
+            if (mvnCommandArgs != null)
+            {
+                mvnCommandWithoutFirstArg = mvnCommandArgs.replace("org.codehaus.plexus.classworlds.launcher.Launcher ", "");
+            }
+
             setJsonField(builder, "result", getResult(session));
             setJsonField(builder, "resultExceptionMessage", getResultExceptionMessage(session));
-            setJsonField(builder, "userName", session.getExecutionProperties().getProperty("env.USERNAME"));
-            setJsonField(builder, "mvnCommandLine", session.getExecutionProperties().getProperty("env.MAVEN_CMD_LINE_ARGS"));
+            setJsonField(builder, "userName", session.getExecutionProperties().getProperty("user.name"));
+            setJsonField(builder, "mvnCommandLine", mvnCommandWithoutFirstArg);
             setJsonField(builder, "javaVersion", session.getExecutionProperties().getProperty("java.version"));
             setJsonField(builder, "mvnVersion", session.getExecutionProperties().getProperty("maven.version"));
-            setJsonField(builder, "computerName", session.getExecutionProperties().getProperty("env.COMPUTERNAME"));
+            setJsonField(builder, "computerName", InetAddress.getLocalHost().getHostName());
             setJsonField(builder, "topLevelProject", getTopLevelProject(session));
             setJsonField(builder, "executionDate", getDate());
             setJsonField(builder, "innerFailedProject", getInnerFailedProject(session));
             setJsonField(builder, "eventType", mvnMonitorMojo.getEventType());
             builder.add("totalTime", getTime(session));
+
 
             JsonObject json = builder.build();
 

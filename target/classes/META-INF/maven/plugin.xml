@@ -4,7 +4,7 @@
   <description></description>
   <groupId>com.hp.alm.plugins</groupId>
   <artifactId>maven-dev-monitoring</artifactId>
-  <version>1.0.7</version>
+  <version>1.0.9</version>
   <goalPrefix>dev-monitoring</goalPrefix>
   <isolatedRealm>false</isolatedRealm>
   <inheritedByDefault>true</inheritedByDefault>

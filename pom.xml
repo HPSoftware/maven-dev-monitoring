@@ -7,7 +7,7 @@
     <groupId>com.hp.alm.plugins</groupId>
     <artifactId>maven-dev-monitoring</artifactId>
     <packaging>maven-plugin</packaging>
-    <version>1.0.7</version>
+    <version>1.0.9</version>
 
     <dependencies>
         <dependency>
